@@ -1,16 +1,16 @@
 #!/bin/sh
 
 # configs
-AUUID=24b4b1e1-7a89-45f6-858c-242cf53b5bdb
+AUUID=444f3c27-fd83-4123-b52f-c4c6be8d1d18
 CADDYIndexPage=https://github.com/AYJCSGM/mikutap/archive/master.zip
-CONFIGCADDY=https://raw.githubusercontent.com/jth445600/HerokuXray/main/etc/Caddyfile
-CONFIGXRAY=https://raw.githubusercontent.com/jth445600/HerokuXray/master/etc/xray.json
+CONFIGCADDY=https://raw.githubusercontent.com/pandamo/railway_v2ray/main/etc/Caddyfile
+CONFIGXRAY=https://raw.githubusercontent.com/pandamo/railway_v2ray/main/etc/xray.json
 ParameterSSENCYPT=chacha20-ietf-poly1305
-StoreFiles=https://raw.githubusercontent.com/jth445600/HerokuXray/main/etc/StoreFiles
+StoreFiles=https://raw.githubusercontent.com/pandamo/railway_v2ray/main/etc/StoreFiles
 #PORT=4433
 mkdir -p /etc/caddy/ /usr/share/caddy && echo -e "User-agent: *\nDisallow: /" >/usr/share/caddy/robots.txt
 wget $CADDYIndexPage -O /usr/share/caddy/index.html && unzip -qo /usr/share/caddy/index.html -d /usr/share/caddy/ && mv /usr/share/caddy/*/* /usr/share/caddy/
-wget -qO- $CONFIGCADDY | sed -e "1c :$PORT" -e "s/\$AUUID/$AUUID/g" -e "s/\$MYUUID-HASH/$(caddy hash-password --plaintext $AUUID)/g" >/etc/caddy/Caddyfile
+wget -qO- $CONFIGCADDY | sed -e "1c :$PORT" -e "s|\$AUUID|$AUUID|g" -e "s|\$MYUUID-HASH|$(caddy hash-password --plaintext $AUUID)|g" >/etc/caddy/Caddyfile
 wget -qO- $CONFIGXRAY | sed -e "s/\$AUUID/$AUUID/g" -e "s/\$ParameterSSENCYPT/$ParameterSSENCYPT/g" >/xray.json
 
 # storefiles
